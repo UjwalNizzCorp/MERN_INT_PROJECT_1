@@ -1,3 +1,10 @@
+/**
+ * @author: Jaseem
+ * @description: This file is used to get the environment variables from the .env file.
+ * @param {string} name - The name of the environment variable.
+ * @returns {string} - The value of the environment variable.
+ * @throws {Error} - If the environment variable is not found and the NODE_ENV is not test.
+ */
 export const getEnv = (name) => {
   try {
     const env = process.env[name];

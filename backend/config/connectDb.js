@@ -1,5 +1,10 @@
 import mongoose from "mongoose";
 
+/**
+ * @author Jaseem
+ * @description Connect to MongoDB database using Mongoose.
+ * @returns {Promise<mongoose.Connection>} - A promise that resolves to the mongoose connection object.
+ */
 export const connectDB = async () => {
   try {
     const con = await mongoose.connect(process.env.MONGO_URI);

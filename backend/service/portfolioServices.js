@@ -6,7 +6,7 @@ import ErrorMessage from "../util/errorMessage.js";
  * @author Jaseem
  * @class PortfolioServices
  * @description This class provides methods for managing user portfolios.
- * 
+ *
  */
 class PortfolioServices {
   /**
@@ -86,7 +86,7 @@ class PortfolioServices {
   /**
    * @breef Updates a portfolio by its ID.
    * @param {string} id - The ID of the portfolio.
-   * @param {object} updatedPortfolio - The updated portfolio object.
+   * @param {object} project - The updated portfolio object.
    * @returns {Promise<object>} - The updated portfolio object.
    * @throws {ErrorMessage} - Throws an error if the portfolio is not found or the ID is invalid.
    */
@@ -96,7 +96,13 @@ class PortfolioServices {
     await portfolio.save();
   }
 
-  /
+  /**
+   * @breef Updates a portfolio by its ID.
+   * @param {string} id - The ID of the portfolio.
+   * @param {object} removePrjt - The updated portfolio object.
+   * @returns {Promise<object>} - The updated portfolio object.
+   * @throws {ErrorMessage} - Throws an error if the portfolio is not found or the ID is invalid.
+   */
   async removeProject(id, removePrjt) {
     const portfolio = await PortfolioModel.findById(id);
     const projects = portfolio.projects.filter((pjt) => pjt !== removePrjt);
