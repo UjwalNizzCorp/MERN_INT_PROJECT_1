@@ -36,8 +36,56 @@ export const getPortfolioController = async (req, res, next) => {
 export const createPortfolioController = async (req, res, next) => {
   const { createPortfolio } = new PortfolioServices();
   try {
-    const project = await createPortfolio(req.taskbody);
+    const portfolio = await createPortfolio(req.taskbody);
+    res.status(201).json(portfolio);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ *
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ * @param {function} next - The next middleware function.
+ * @returns {Promise<object>} - The project object.
+ * @function addProject - Adds a project to a portfolio.
+ *
+ */
+export const addProject = async (req, res, next) => {
+  /**
+   * @property {string} projectId - recieve the id of the project .
+   */
+
+  const { addProject } = new PortfolioServices();
+  const projectId = req.body.projectId;
+  try {
+    const project = await addProject(req.params.id, projectId);
     res.status(201).json(project);
+  } catch (error) {
+    next(error);
+  }
+};
+/**
+ *
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ * @param {function} next - The next middleware function.
+//  * @returns {Promise<object>} - The project object.
+ * @function deleteProject - Deletes a project from a portfolio.
+ */
+
+export const deleteProject = async (req, res, next) => {
+  /**
+   * @property {string} projectId - The ID of the project.
+   * @function deleteProject - call the removeProject method in PortfolioServices.js.
+   */
+
+  const { removeProject } = new PortfolioServices();
+  const projectId = req.body.projectId;
+  try {
+    const deltedProject = await removeProject(req.params.id, projectId);
+    res.status(204).send(deltedProject);
   } catch (error) {
     next(error);
   }
