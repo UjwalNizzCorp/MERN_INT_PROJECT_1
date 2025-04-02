@@ -19,7 +19,7 @@ import AuthUtils from "../util/authUtils.js";
  */
 class UserService {
   /**
-   * @breef Registers a new user with the provided name, email, and password.
+   * @brief Registers a new user with the provided name, email, and password.
    * @param {string} name - The name of the user.
    * @param {string} email - The email of the user.
    * @param {string} password - The password of the user.
@@ -45,7 +45,7 @@ class UserService {
   }
 
   /**
-   * @breef Logs in a user with the provided email and password.
+   * @brief Logs in a user with the provided email and password.
    * @param {string} email - The email of the user.
    * @param {string} password - The password of the user.
    * @returns {Promise<{ user: object, token: string }>} - The logged-in user and their token.
@@ -73,7 +73,7 @@ class UserService {
   }
 
   /**
-   * @breef Authenticates a user using the provided token.
+   * @brief Authenticates a user using the provided token.
    * @param {object} res - The response object containing the token.
    * @returns {Promise<object>} - The decoded token.
    * @throws {ErrorMessage} - Throws an error if the token is not found or invalid.
@@ -88,7 +88,7 @@ class UserService {
   }
 
   /**
-   * @breef Retrieves a user by their ID.
+   * @brief Retrieves a user by their ID.
    * @param {string} id - The ID of the user.
    * @returns {Promise<object>} - The user object.
    * @throws {ErrorMessage} - Throws an error if the user is not found or the ID is not valid.
@@ -103,7 +103,7 @@ class UserService {
   }
 
   /**
-   * @breef Deletes a user by their ID.
+   * @brief Deletes a user by their ID.
    * @param {string} id - The ID of the user.
    * @returns {Promise<object>} - The deleted user object.
    * @throws {ErrorMessage} - Throws an error if the user is not found or the ID is not valid.
@@ -116,7 +116,7 @@ class UserService {
   }
 
   /**
-   * @breef Checks if a user exists by their ID.
+   * @brief Checks if a user exists by their ID.
    * @param {string} id - The ID of the user.
    * @returns {Promise<void>} - Returns nothing if the user exists.
    * @throws {ErrorMessage} - Throws an error if the user is not found or the ID is not valid.
@@ -129,7 +129,7 @@ class UserService {
   }
 
   /**
-   * @breef Checks if the provided ID is a valid ObjectId.
+   * @brief Checks if the provided ID is a valid ObjectId.
    * @param {string} id - The ID to check.
    * @throws {ErrorMessage} - Throws an error if the ID is not valid.
    */

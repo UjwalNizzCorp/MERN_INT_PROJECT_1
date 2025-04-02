@@ -10,7 +10,7 @@ import ErrorMessage from "../util/errorMessage.js";
  */
 class PortfolioServices {
   /**
-   * @breef Retrieves a portfolio by its ID.
+   * @brief Retrieves a portfolio by its ID.
    * @param {string} id - The ID of the portfolio.
    * @returns {Promise<object>} - The portfolio object.
    * @throws {ErrorMessage} - Throws an error if the portfolio is not found or the ID is invalid.
@@ -24,7 +24,7 @@ class PortfolioServices {
     return portfolio;
   }
   /**
-   * @breef Creates a new portfolio for a user.
+   * @brief Creates a new portfolio for a user.
    * @param {string} userId - The ID of the user.
    * @param {Array} skills - The skills of the user.
    * @param {Array} projects - The projects of the user.
@@ -45,7 +45,7 @@ class PortfolioServices {
   }
 
   /**
-   * @breef Updates a portfolio by its ID.
+   * @brief Updates a portfolio by its ID.
    * @param {string} id - The ID of the portfolio.
    * @param {object} updatedPortfolio - The updated portfolio object.
    * @returns {Promise<object>} - The updated portfolio object.
@@ -57,7 +57,7 @@ class PortfolioServices {
   }
 
   /**
-   * @breef Updates a portfolio by its ID.
+   * @brief Updates a portfolio by its ID.
    * @param {string} id - The ID of the portfolio.
    * @param {object} updatedPortfolio - The updated portfolio object.
    * @returns {Promise<object>} - The updated portfolio object.
@@ -70,7 +70,7 @@ class PortfolioServices {
   }
 
   /**
-   * @breef Updates a portfolio by its ID.
+   * @brief Updates a portfolio by its ID.
    * @param {string} id - The ID of the portfolio.
    * @param {object} updatedPortfolio - The updated portfolio object.
    * @returns {Promise<object>} - The updated portfolio object.
@@ -84,7 +84,7 @@ class PortfolioServices {
   }
 
   /**
-   * @breef Updates a portfolio by its ID.
+   * @brief Updates a portfolio by its ID.
    * @param {string} id - The ID of the portfolio.
    * @param {object} project - The updated portfolio object.
    * @returns {Promise<object>} - The updated portfolio object.
@@ -97,7 +97,7 @@ class PortfolioServices {
   }
 
   /**
-   * @breef Updates a portfolio by its ID.
+   * @brief Updates a portfolio by its ID.
    * @param {string} id - The ID of the portfolio.
    * @param {object} removePrjt - The updated portfolio object.
    * @returns {Promise<object>} - The updated portfolio object.

@@ -4,10 +4,10 @@ import {
 } from "../Controllers/validateSchema.js";
 
 /**
- * @breef Middleware to validate register request body.
+ * @brief Middleware to validate register request body.
  * @param {object} req - The request object.
  * @param {object} res - The response object.
- * @param {function} next - The next middleware function.
+ *  @param {function} next - The next middleware function.
  * @returns {void}
  */
 export const registserValidateMiddleware = (req, res, next) => {
@@ -20,13 +20,6 @@ export const registserValidateMiddleware = (req, res, next) => {
   next();
 };
 
-/**
- * @breef Middleware to validate login request body.
- * @param {object} req - The request object.
- * @param {object} res - The response object.
- * @param {function} next - The next middleware function.
- * @returns {void}
- */
 export const loginVlaidateMiddleware = (req, res, next) => {
   const { error } = validateLoginSchema.validate(req.body);
   if (error) {

@@ -1,10 +1,12 @@
 import request from "supertest";
 import express from "express";
 import { registerController } from "../Controllers/authController.js";
-import UserService from "../service/UserServices.js";
+import UserService from "../service/userServices.js";
+import ErrorMessage from "../util/errorMessage.js";
+import { errorHandler } from "../Middleware/errorHandler.js";
 
 // Mock UserService
-jest.mock("../service/UserServices.js");
+jest.mock("../service/userServices.js");
 
 const app = express();
 app.use(express.json());
@@ -16,6 +18,7 @@ app.use((req, res, next) => {
 });
 
 app.post("/register", registerController);
+app.use(errorHandler);
 
 describe("registerController", () => {
   let mockRegisterUser;
@@ -29,35 +32,45 @@ describe("registerController", () => {
   });
 
   it("should return 500 if an error occurs", async () => {
-    mockRegisterUser.mockRejectedValue(new Error("DB error"));
+    mockRegisterUser.mockRejectedValue(
+      new ErrorMessage(500, "Something Went wrong")
+    );
 
     const res = await request(app).post("/register").send({
+      name: "test",
       email: "test@example.com",
       password: "securePassword",
     });
 
     expect(res.status).toBe(500);
-    expect(res.body).toEqual({ messge: "Something Went wrong" });
+    await expect(res.body).toEqual({ message: "Something Went wrong" });
+    // expect(res.body).toEqual({ message: "Something Went wrong" });
     expect(mockRegisterUser).toHaveBeenCalled();
   });
 
   it("should register a user successfully", async () => {
     mockRegisterUser.mockResolvedValue({
       id: "123",
+      name: "test",
       email: "test@example.com",
     });
 
     const res = await request(app).post("/register").send({
+      name: "test",
       email: "test@example.com",
       password: "securePassword",
     });
 
-    expect(res.status).toBe(200);
-    expect(res.body).toEqual({ id: "123", email: "test@example.com" });
+    expect(res.status).toBe(201);
+    expect(res.body).toEqual({
+      id: "123",
+      email: "test@example.com",
+      name: "test",
+    });
     expect(mockRegisterUser).toHaveBeenCalledWith(
+      "test",
       "test@example.com",
-      "securePassword",
-      expect.any(Object)
+      "securePassword"
     );
   });
 });

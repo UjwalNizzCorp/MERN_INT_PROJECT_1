@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 /**
  * @author Jaseem
  * @class AuthUtils
- * @breef - Utility class related to User authentication.
+ * @brief - Utility class related to User authentication.
  *
  * @method hashingPassword - Hash password and returnning it.
  * @param {string}password - Password String that need to be Hashed.
@@ -12,6 +12,7 @@ import bcrypt from "bcrypt";
  * @param {string}hash - Hash password that need to be compared against.
  * @param {string}password - Password String that need to be compared.
  */
+
 class AuthUtils {
   async hashingPassword(password) {
     const salt = await bcrypt.genSalt(10);

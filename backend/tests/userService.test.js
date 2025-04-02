@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import UserService from "../service/UserServices.js";
+import UserService from "../service/userServices.js";
 import UserModel from "../Models/UserModel.js";
 import { generateToken, validateToken } from "../util/jwt.js";
 import ErrorMessage from "../util/errorMessage.js";

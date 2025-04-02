@@ -28,17 +28,16 @@ describe("Portfolio Service", () => {
   });
 
   test("Should return a portfolio", async () => {
+    const userId = new mongoose.Types.ObjectId();
     const newPortfolio = await PortfolioModel.create({
       skills: ["js", "node"],
-      about: "dev",
-      contact: "12301293",
       experience: "5y",
-      fullName: "John Done",
-      websiteUrl: "www.google.com",
+      userId,
     });
     const fetchPortfolio = await portfolioService.getPortfolioById(
       newPortfolio._id
     );
-    await expect(fetchPortfolio.about).toBe("dev");
+
+    await expect(fetchPortfolio.userId.toString()).toBe(userId.toString());
   });
 });

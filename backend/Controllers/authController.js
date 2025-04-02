@@ -1,4 +1,4 @@
-import UserService from "../service/UserServices.js";
+import UserService from "../service/userServices.js";
 import ErrorMessage from "../util/errorMessage.js";
 
 /**
