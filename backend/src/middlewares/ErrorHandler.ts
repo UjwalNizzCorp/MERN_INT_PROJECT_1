@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import ErrorMessage from "../utils/errorMessage";
 /**
  * @author: Jaseem
  * @description: Middleware to handle errors in Express applications.
@@ -9,7 +10,7 @@ import { Request, Response, NextFunction } from "express";
  * @throws {void} - This function does not throw any errors.
  */
 export const errorHandler = (
-  error,
+  error: ErrorMessage,
   req: Request,
   res: Response,
   next: NextFunction

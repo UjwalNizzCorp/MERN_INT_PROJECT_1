@@ -2,10 +2,10 @@ import express from "express";
 import "dotenv/config";
 import "types.d.ts";
 import appRouter from "./routes/userRoute";
-import { errorHandler } from "./Middleware/ErrorHandler";
-import portfolioRouter from "./routes/portfolioRoutes.js";
-import { connectDB } from "./config/connectDb.js";
-import { PORT } from "./constance/env.js";
+import portfolioRouter from "./routes/portfolioRoutes";
+import { errorHandler } from "./middlewares/ErrorHandler";
+import { PORT } from "./constants/env";
+import { connectDB } from "./config/connectDb";
 
 const app = express();
 

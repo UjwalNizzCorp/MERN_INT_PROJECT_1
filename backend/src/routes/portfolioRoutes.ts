@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getPortfolioController } from "../Controllers/portfolioControl";
+import { getPortfolioController } from "../controller/portfolioControl";
 
 const portfolioRouter = Router();
 

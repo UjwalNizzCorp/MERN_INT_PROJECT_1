@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import {
   validateLoginSchema,
   validateRegisterSchema,
-} from "../Controllers/validationSchema";
+} from "../controller/validationSchema";
 /**
  * @brief Middleware to validate register request body.
  * @param {object} req - The request object.
