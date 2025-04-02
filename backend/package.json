@@ -21,7 +21,7 @@
   "main": "server.js",
   "scripts": {
     "test": "jest --verbose",
-    "dev": "nodemon server.js",
+    "dev": "ts-node server.ts types.d.ts",
     "start": "node server.js"
   },
   "keywords": [],
