@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
-import PortfolioModel from "../Models/PortfolioModle";
-import ErrorMessage from "../util/errorMessage"
-
+import PortfolioModel from "../model/PortfolioModle";
+import ErrorMessage from "../utils/errorMessage";
 
 /**
  * @author Jaseem
@@ -16,7 +15,7 @@ class PortfolioServices {
    * @returns {Promise<object>} - The portfolio object.
    * @throws {ErrorMessage} - Throws an error if the portfolio is not found or the ID is invalid.
    */
-  async getPortfolioById(id:string) {
+  async getPortfolioById(id: string) {
     this.isValidObjectId(id);
     const portfolio = await PortfolioModel.findById(id);
     if (!portfolio) {
@@ -33,7 +32,17 @@ class PortfolioServices {
    * @returns {Promise<object>} - The newly created portfolio object.
    * @throws {ErrorMessage} - Throws an error if the user ID is invalid.
    */
-  async createPortfolio({userId,skills,projects,experience}:{ userId:string, skills:Array<string>, projects:Array<string>, experience:string }) {
+  async createPortfolio({
+    userId,
+    skills,
+    projects,
+    experience,
+  }: {
+    userId: string;
+    skills: Array<string>;
+    projects: Array<string>;
+    experience: string;
+  }) {
     const newPortfolio = new PortfolioModel({
       userId,
       skills,
@@ -64,7 +73,7 @@ class PortfolioServices {
    * @returns {Promise<object>} - The updated portfolio object.
    * @throws {ErrorMessage} - Throws an error if the portfolio is not found or the ID is invalid.
    */
-  isValidObjectId(id:string) {
+  isValidObjectId(id: string) {
     if (!mongoose.isValidObjectId(id)) {
       throw new ErrorMessage(400, "Not a valid ObjectId");
     }
@@ -77,7 +86,7 @@ class PortfolioServices {
    * @returns {Promise<object>} - The updated portfolio object.
    * @throws {ErrorMessage} - Throws an error if the portfolio is not found or the ID is invalid.
    */
-  async isExistingPortfolio(id:string) {
+  async isExistingPortfolio(id: string) {
     const portfolio = await PortfolioModel.findById(id);
     if (!portfolio) {
       throw new ErrorMessage(404, "Portfolio Doesn't exist");
@@ -91,10 +100,10 @@ class PortfolioServices {
    * @returns {Promise<object>} - The updated portfolio object.
    * @throws {ErrorMessage} - Throws an error if the portfolio is not found or the ID is invalid.
    */
-  async addProject(id:string, project:string) {
+  async addProject(id: string, project: string) {
     const portfolio = await PortfolioModel.findById(id);
-    if(!portfolio){
-        throw new ErrorMessage(404, "Portfolio not found")
+    if (!portfolio) {
+      throw new ErrorMessage(404, "Portfolio not found");
     }
     portfolio.projects.push(project);
     await portfolio.save();
@@ -107,10 +116,10 @@ class PortfolioServices {
    * @returns {Promise<object>} - The updated portfolio object.
    * @throws {ErrorMessage} - Throws an error if the portfolio is not found or the ID is invalid.
    */
-  async removeProject(id:string, removePrjt:string) {
+  async removeProject(id: string, removePrjt: string) {
     const portfolio = await PortfolioModel.findById(id);
-    if(!portfolio){
-        throw new ErrorMessage(404, "Portfolio not found")
+    if (!portfolio) {
+      throw new ErrorMessage(404, "Portfolio not found");
     }
     const projects = portfolio.projects.filter((pjt) => pjt !== removePrjt);
     portfolio.projects = projects;

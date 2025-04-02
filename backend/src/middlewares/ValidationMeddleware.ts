@@ -1,9 +1,8 @@
+import { Request, Response, NextFunction } from "express";
 import {
   validateLoginSchema,
   validateRegisterSchema,
-} from "../Controllers/validateSchema.js";
-import { Request, Response, NextFunction } from "express";
-
+} from "../controller/validationSchema";
 /**
  * @brief Middleware to validate register request body.
  * @param {object} req - The request object.
@@ -17,11 +16,10 @@ export const registserValidateMiddleware = (
   next: NextFunction
 ) => {
   const { error } = validateRegisterSchema.validate(req.body);
-  if (error) {
-    return res.status(400).send(error.details[0].message);
-  } else {
-    req.taskbody = { ...req.body };
+  if (typeof error !== "undefined") {
+    res.status(400).send(error.details[0].message);
   }
+  req.reg_user = { ...req.body };
   next();
 };
 
@@ -32,9 +30,9 @@ export const loginVlaidateMiddleware = (
 ) => {
   const { error } = validateLoginSchema.validate(req.body);
   if (error) {
-    return res.status(400).send(error.details[0].message);
+    res.status(400).send(error.details[0].message);
   } else {
-    req.taskbody = { ...req.body };
+    req.log_user = { ...req.body };
   }
   next();
 };

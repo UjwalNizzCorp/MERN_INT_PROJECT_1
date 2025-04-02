@@ -1,9 +1,9 @@
-import UserModel from "../Models/UserModel.js";
-import { generateToken, validateToken } from "../util/jwt.js";
-import ErrorMessage from "../util/errorMessage.js";
+import UserModel from "../model/UserModel";
+import { generateToken, validateToken } from "../utils/jwt";
+import ErrorMessage from "../utils/errorMessage";
 import mongoose from "mongoose";
-import AuthUtils from "../util/authUtils.js";
-import {Request} from 'express'
+import AuthUtils from "../utils/authUtil";
+import { Request } from "express";
 
 /**
  * @author Jaseem
@@ -27,7 +27,7 @@ class UserService {
    * @returns {Promise<{ newUser: object, token: string }>} - The newly registered user and their token.
    * @throws {ErrorMessage} - Throws an error if the email is already in use.
    */
-  async registerUser(name:string, email:string, password:string) {
+  async registerUser(name: string, email: string, password: string) {
     // name, skills, projects, experience
     const isExist = await UserModel.findOne({ email });
     if (isExist) {
@@ -41,7 +41,7 @@ class UserService {
       password: hashedpassword,
     });
     await newUser.save();
-    const token = generateToken(newUser._id);
+    const token = generateToken(newUser._id.toString());
     return { newUser, token: token };
   }
 
@@ -52,7 +52,7 @@ class UserService {
    * @returns {Promise<{ user: object, token: string }>} - The logged-in user and their token.
    * @throws {ErrorMessage} - Throws an error if the user is not found or the password is invalid.
    */
-  async logingUser(email:string, password:string) {
+  async logingUser(email: string, password: string) {
     const user = await UserModel.findOne({ email });
     if (!user) {
       throw new ErrorMessage(404, "User not found");
@@ -63,7 +63,7 @@ class UserService {
       throw new ErrorMessage(400, "Unauthorized - Invalid Password");
     }
 
-    const token = generateToken(user._id);
+    const token = generateToken(user._id.toString());
     const returnValue = {
       name: user.name,
       email: user.email,
@@ -79,7 +79,7 @@ class UserService {
    * @returns {Promise<object>} - The decoded token.
    * @throws {ErrorMessage} - Throws an error if the token is not found or invalid.
    * */
-  async authenticateUser(req:Request) {
+  async authenticateUser(req: Request) {
     const token = req.cookies.jwt;
     if (!token) {
       throw new ErrorMessage(400, "Token not found");
@@ -94,7 +94,7 @@ class UserService {
    * @returns {Promise<object>} - The user object.
    * @throws {ErrorMessage} - Throws an error if the user is not found or the ID is not valid.
    */
-  async getUser(id:string) {
+  async getUser(id: string) {
     this.isValidObjectId(id);
     const user = await UserModel.findById(id);
     if (!user) {
@@ -109,7 +109,7 @@ class UserService {
    * @returns {Promise<object>} - The deleted user object.
    * @throws {ErrorMessage} - Throws an error if the user is not found or the ID is not valid.
    */
-  async deleteUser(id:string) {
+  async deleteUser(id: string) {
     this.isValidObjectId(id);
     this.isExistingUser(id);
     const respose = await UserModel.findByIdAndDelete(id);
@@ -122,7 +122,7 @@ class UserService {
    * @returns {Promise<void>} - Returns nothing if the user exists.
    * @throws {ErrorMessage} - Throws an error if the user is not found or the ID is not valid.
    */
-  async isExistingUser(id:string) {
+  async isExistingUser(id: string) {
     const isUserExist = await UserModel.findById(id);
     if (!isUserExist) {
       throw new ErrorMessage(404, "User not Found");
@@ -134,7 +134,7 @@ class UserService {
    * @param {string} id - The ID to check.
    * @throws {ErrorMessage} - Throws an error if the ID is not valid.
    */
-  isValidObjectId(id:string) {
+  isValidObjectId(id: string) {
     if (!mongoose.isValidObjectId(id)) {
       throw new ErrorMessage(400, "Not a valid ObjectId");
     }

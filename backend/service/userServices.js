@@ -1,6 +1,6 @@
-import UserModel from "../Models/UserModel.js";
+import UserModel from "../src/model/UserModel.js";
 import { generateToken, validateToken } from "../util/jwt.js";
-import ErrorMessage from "../util/errorMessage.js";
+import ErrorMessage from "../src/utils/errorMessage.js";
 import mongoose from "mongoose";
 import AuthUtils from "../util/authUtils.js";
 
