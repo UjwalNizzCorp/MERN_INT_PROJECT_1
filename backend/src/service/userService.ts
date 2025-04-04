@@ -1,8 +1,8 @@
-import UserModel from "../model/UserModel";
-import { generateToken, validateToken } from "../utils/jwt";
-import ErrorMessage from "../utils/errorMessage";
+import UserModel from "../model/UserModel.js";
+import { generateToken, validateToken } from "../utils/jwt.js";
+import ErrorMessage from "../utils/errorMessage.js";
 import mongoose from "mongoose";
-import AuthUtils from "../utils/authUtil";
+import AuthUtils from "../utils/authUtil.js";
 import { Request } from "express";
 
 /**
@@ -40,8 +40,8 @@ class UserService {
       email,
       password: hashedpassword,
     });
-    await newUser.save();
     const token = generateToken(newUser._id.toString());
+    await newUser.save();
     return { newUser, token: token };
   }
 
@@ -58,7 +58,7 @@ class UserService {
       throw new ErrorMessage(404, "User not found");
     }
     const authUtil = new AuthUtils();
-    const isValid = await authUtil.comparePassword(user.password, password);
+    const isValid = await authUtil.comparePassword(password, user.password);
     if (!isValid) {
       throw new ErrorMessage(400, "Unauthorized - Invalid Password");
     }

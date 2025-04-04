@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import ErrorMessage from "../utils/errorMessage";
+import ErrorMessage from "../utils/errorMessage.js";
 /**
  * @author: Jaseem
  * @description: Middleware to handle errors in Express applications.

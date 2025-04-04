@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 /**
- * @file User Model 
+ * @file User Model
  * @author Jaseem
- * 
+ *
  * @class User
  * @brief Represents a user in the system.
  *
@@ -14,30 +14,32 @@ import mongoose from "mongoose";
  * @method comparePassword - Compares entered password with hashed password.
  */
 
-
-interface UserDocument extends mongoose.Document{
-    _id:mongoose.Types.ObjectId;
-    name:string,
-    password:string,
-    email:string,
-    createdAt:Date,
-    updatedAt:Date,
+export interface UserDocument extends mongoose.Document {
+  _id: mongoose.Types.ObjectId;
+  name: string;
+  password: string;
+  email: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const userSchema = new mongoose.Schema<UserDocument>({
-    name:{
-        type:String,
-        required:true,
+const userSchema = new mongoose.Schema<UserDocument>(
+  {
+    name: {
+      type: String,
+      required: true,
     },
-    password:{
-        type:String,
-        required:true,
+    password: {
+      type: String,
+      required: true,
     },
-    email:{
-        type:String,
-        required:true,
+    email: {
+      type: String,
+      required: true,
     },
-},{timestamps:true})
+  },
+  { timestamps: true }
+);
 
-const UserModel = mongoose.model<UserDocument>("User",userSchema)
+const UserModel = mongoose.model<UserDocument>("User", userSchema);
 export default UserModel;

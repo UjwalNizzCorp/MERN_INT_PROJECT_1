@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { MONGO_URI } from "../constants/env";
+import { MONGO_URI } from "../constants/env.js";
 
 /**
  * @file connectDb
@@ -15,7 +15,7 @@ export const connectDB = async () => {
   } catch (error: any) {
     error.message &&
       console.log(`Error When connecting to DB ${error.message}`);
-    throw new Error("Database connection failed");
-    // process.exit(1);
+    // throw new Error("Database connection failed");
+    process.exit(1);
   }
 };

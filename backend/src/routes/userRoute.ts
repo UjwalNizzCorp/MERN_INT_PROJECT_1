@@ -3,11 +3,11 @@ import {
   getSingleUser,
   loginController,
   registerController,
-} from "../controller/authControl";
+} from "../controller/authControl.js";
 import {
   loginVlaidateMiddleware,
   registserValidateMiddleware,
-} from "../middlewares/ValidationMeddleware";
+} from "../middlewares/ValidationMeddleware.js";
 const appRouter = express.Router();
 
 appRouter.post("/register", registserValidateMiddleware, registerController);

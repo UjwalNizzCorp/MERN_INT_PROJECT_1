@@ -1,4 +1,4 @@
-import PortfolioServices from "../service/portfolioService";
+import PortfolioServices from "../service/portfolioService.js";
 import { Request, Response, NextFunction } from "express";
 
 /**
@@ -45,7 +45,8 @@ export const createPortfolioController = async (
 ): Promise<void> => {
   const { createPortfolio } = new PortfolioServices();
   try {
-    const { userId, skills, projects, experience } = req.create_port;
+    // const { userId, skills, projects, experience } = req.create_port;
+    const { userId, skills, projects, experience } = req.body;
     const id = userId.toString();
     const portfolio = await createPortfolio({
       userId: id,
@@ -75,7 +76,8 @@ export const addProject = async (
 ) => {
   const { addProject } = new PortfolioServices();
   try {
-    const project = await addProject(req.params.id, req.port_project);
+    // const project = await addProject(req.params.id, req.port_project);
+    const project = await addProject(req.params.id, req.body);
     res.status(201).json(project);
   } catch (error) {
     next(error);
@@ -102,7 +104,8 @@ export const deleteProject = async (
 
   const { removeProject } = new PortfolioServices();
   try {
-    const deltedProject = await removeProject(req.params.id, req.port_project);
+    // const deltedProject = await removeProject(req.params.id, req.port_project);
+    const deltedProject = await removeProject(req.params.id, req.body);
     res.status(204).send(deltedProject);
   } catch (error) {
     next(error);

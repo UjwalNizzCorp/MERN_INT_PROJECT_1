@@ -1,11 +1,13 @@
 import express from "express";
+// import * as dotenv from "dotenv";
 import "dotenv/config";
-import "types.d.ts";
-import appRouter from "./routes/userRoute";
-import portfolioRouter from "./routes/portfolioRoutes";
-import { errorHandler } from "./middlewares/ErrorHandler";
-import { PORT } from "./constants/env";
-import { connectDB } from "./config/connectDb";
+import appRouter from "./routes/userRoute.js";
+import portfolioRouter from "./routes/portfolioRoutes.js";
+import { errorHandler } from "./middlewares/ErrorHandler.js";
+import { PORT } from "./constants/env.js";
+import { connectDB } from "./config/connectDb.js";
+
+// dotenv.config();
 
 const app = express();
 

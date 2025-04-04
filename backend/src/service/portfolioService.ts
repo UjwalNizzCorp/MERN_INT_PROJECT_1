@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import PortfolioModel from "../model/PortfolioModle";
-import ErrorMessage from "../utils/errorMessage";
+import PortfolioModel from "../model/PortfolioModle.js";
+import ErrorMessage from "../utils/errorMessage.js";
 
 /**
  * @author Jaseem

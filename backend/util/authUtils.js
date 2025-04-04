@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import { hash, compare, genSalt } from "bcrypt";
 
 /**
  * @author Jaseem
@@ -15,13 +15,13 @@ import bcrypt from "bcrypt";
 
 class AuthUtils {
   async hashingPassword(password) {
-    const salt = await bcrypt.genSalt(10);
-    const hashedpassword = await bcrypt.hash(password, salt);
+    const salt = await genSalt(10);
+    const hashedpassword = await hash(password, salt);
     return hashedpassword;
   }
 
   async comparePassword(password, hash) {
-    const res = await bcrypt.compare(password, hash);
+    const res = await compare(password, hash);
     return res;
   }
 }

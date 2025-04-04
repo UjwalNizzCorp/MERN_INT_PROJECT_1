@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../constants/env";
+import { JWT_SECRET } from "../constants/env.js";
 
 /**
  * @description Generates a JWT token for the user
