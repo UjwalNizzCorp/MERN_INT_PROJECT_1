@@ -20,9 +20,9 @@ class Axios {
       throw new Error(error || "Unknown Error Occured");
     }
   }
-  static async post(url: string) {
+  static async post(url: string,data:{}) {
     try {
-      const response = await this.api.post(url);
+      const response = await this.api.post(url,data);
       return response.data;
     } catch (error: any) {
       throw new Error(error || "Unknown Error");

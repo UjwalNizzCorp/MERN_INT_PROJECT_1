@@ -26,7 +26,7 @@ import userService from "../services/userService";
 interface UserDetails {
   name: string;
   skills: string;
-  experience: number;
+  experience: string;
   projects: string;
 }
 

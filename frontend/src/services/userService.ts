@@ -1,44 +1,65 @@
+/**
+ * @file userService.ts
+ * @brief This file contains the UserService class, which handles user-related operations such as login, logout, and updating user details.
+ * @author Muhammad Haseen
+ * @date 2025/04/04
+ */
+
 // import axios, { AxiosInstance } from "axios";
 import { jwtDecode } from "jwt-decode";
 import Axios from "../utils/axios";
 
+/**
+ * Interface representing the data required for user login.
+ */
 interface LoginData {
-  email: string;
-  password: string;
+  email: string; /**< User's email address. */
+  password: string; /**< User's password. */
 }
 
-interface UpdateDetails{
-  name: string;
-  skills: string;
-  experience: number;
-  projects: string;
-
+/**
+ * Interface representing the details required to update a user.
+ */
+interface UpdateDetails {
+  name: string; /**< User's name. */
+  skills: string; /**< User's skills. */
+  experience: string; /**< User's years of experience. */
+  projects: string; /**< User's projects. */
 }
 
+/**
+ * Service class for handling user-related operations.
+ */
 class UserService {
-  // private api: AxiosInstance;
-
-  // constructor() {
-  //   this.api = axios.create({
-  //     baseURL: "http://localhost:5000/api",
-  //     withCredentials: true,
-  //   });
-  // }
-
-  async login(data: LoginData) {
-    console.log(data);
+  /**
+   * Logs in a user with the provided credentials.
+   * @param data - The login data containing email and password.
+   * @returns A promise resolving to the server response.
+   */
+  static async login(data: LoginData) {
+    console.log("Loging data service",data);
     try {
-      const response = Axios.post("/login");
+      // const response = Axios.post("/login", data);
+      const response = {
+        message:"Login successful",
+        ok:true,
+        token:"1234567890",
+      }
       console.log(response);
       return response;
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error:", error);
-      return;
+      // return;
+      return error.response?.data?.message || "Login failed";
     }
   }
-  async getUser(): Promise<any> {
+
+  /**
+   * Retrieves the current user's details using the stored token.
+   * @returns A promise resolving to the user data.
+   */
+ static async getUser(): Promise<any> {
     const token = localStorage.getItem("token") || "{}";
-    // console.log(token);
     type jwtType = { userId: string; iat: number; exp: number };
     const decoded: jwtType = jwtDecode(token);
     const userId = decoded.userId;
@@ -50,27 +71,36 @@ class UserService {
     } catch (error) {
       return;
     }
-    return;
+ 
   }
 
-  async logout(): Promise<any> {
+  /**
+   * Logs out the current user.
+   * @returns A promise resolving to the server response.
+   */
+ static async logout(): Promise<any> {
     try {
-      const response = Axios.post("/logout");
+      const response = Axios.post("/logout", {});
       return response;
     } catch (error) {
       return;
     }
   }
-  
-  async updateUser(data:UpdateDetails){
+
+  /**
+   * Updates the current user's details.
+   * @param data - The updated user details.
+   * @returns A promise resolving to the server response.
+   */
+ static async updateUser(data: UpdateDetails) {
     try {
-      const response = Axios.put(`/user`,data);
+      const response = Axios.put(`/user`, data);
       return response;
     } catch (error) {
       return;
     }
-    return;
+
   }
 }
 
-export default new UserService();
+export default UserService;

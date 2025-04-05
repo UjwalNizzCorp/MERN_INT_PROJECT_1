@@ -50,13 +50,14 @@ const Profile = () => {
     const fetchUser = async () => {
       try {
        
-        const response = {
-          name: "John Doe",
-          email: "john.doe@example.com",
-          skills: "React, Node.js, MongoDB",
-          projects: "Portfolio, Social Media App",
-          experience: "3 years",
-        };
+        // const response = {
+        //   name: "John Doe",
+        //   email: "john.doe@example.com",
+        //   skills: "React, Node.js, MongoDB",
+        //   projects: "Portfolio, Social Media App",
+        //   experience: "3 years",
+        // };
+        const response = await userService.getUser();
         setUserData(response);
         console.log(response);
       } catch (error) {

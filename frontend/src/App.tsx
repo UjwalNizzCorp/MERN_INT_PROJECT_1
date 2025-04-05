@@ -6,7 +6,7 @@ import { Outlet } from 'react-router'
 function App() {
  
   return (
-   <main className=''>
+   <main className='' role='main'>
    <Outlet/>
    </main>
   )
