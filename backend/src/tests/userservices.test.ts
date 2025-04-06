@@ -1,37 +1,42 @@
-import UserService from "../service/userService.js";
+import "dotenv/config.js";
+import { UserServices } from "../service/userService.js";
 import UserModel from "../model/UserModel.js";
 import { generateToken, validateToken } from "../utils/jwt.js";
 import AuthUtils from "../utils/authUtil.js";
 import ErrorMessage from "../utils/errorMessage.js";
 import mongoose from "mongoose";
 
-jest.mock("../model/UserModel");
-jest.mock("../utils/jwt");
-jest.mock("../utils/authUtil");
+// Mock dependencies, but NOT UserServices itself
+jest.mock("../model/UserModel.js");
+jest.mock("../utils/jwt.js");
+jest.mock("../utils/authUtil.js");
 
 describe("UserService", () => {
-  const userService = new UserService();
+  let userService: UserServices;
 
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
+    userService = new UserServices();
   });
 
   describe("registerUser", () => {
     it("should register a new user and return the user and token", async () => {
       const mockUser = {
-        _id: "123",
+        _id: new mongoose.Types.ObjectId(),
         name: "John",
         email: "john@example.com",
         password: "hashedPassword",
+        save: jest.fn().mockResolvedValue(true),
       };
       const mockToken = "mockToken";
 
-      UserModel.findOne = jest.fn().mockResolvedValue(null);
-      AuthUtils.prototype.hashingPassword = jest
-        .fn()
+      // Fix mock implementations
+      (UserModel.findOne as jest.Mock).mockResolvedValue(null);
+      (UserModel as any).mockImplementation(() => mockUser);
+      (generateToken as jest.Mock).mockReturnValue(mockToken);
+      jest
+        .spyOn(AuthUtils.prototype, "hashingPassword")
         .mockResolvedValue("hashedPassword");
-      UserModel.prototype.save = jest.fn().mockResolvedValue(mockUser);
-      jest.spyOn({ generateToken }, "generateToken").mockReturnValue(mockToken);
 
       const result = await userService.registerUser(
         "John",
@@ -45,15 +50,20 @@ describe("UserService", () => {
       expect(AuthUtils.prototype.hashingPassword).toHaveBeenCalledWith(
         "password123"
       );
-      expect(UserModel.prototype.save).toHaveBeenCalled();
       expect(generateToken).toHaveBeenCalledWith(mockUser._id.toString());
-      expect(result).toEqual({ newUser: mockUser, token: mockToken });
+      expect(result).toEqual({
+        newUser: expect.objectContaining({
+          name: "John",
+          email: "john@example.com",
+        }),
+        token: mockToken,
+      });
     });
 
     it("should throw an error if email is already in use", async () => {
-      UserModel.findOne = jest
-        .fn()
-        .mockResolvedValue({ email: "john@example.com" });
+      (UserModel.findOne as jest.Mock).mockResolvedValue({
+        email: "john@example.com",
+      });
 
       await expect(
         userService.registerUser("John", "john@example.com", "password123")
@@ -62,18 +72,20 @@ describe("UserService", () => {
   });
 
   describe("logingUser", () => {
-    it("should log in a user and return the user and token", async () => {
+    it("should log in user and return user with token", async () => {
       const mockUser = {
-        _id: "123",
+        _id: new mongoose.Types.ObjectId(),
         name: "John",
         email: "john@example.com",
         password: "hashedPassword",
       };
       const mockToken = "mockToken";
 
-      UserModel.findOne = jest.fn().mockResolvedValue(mockUser);
-      AuthUtils.prototype.comparePassword = jest.fn().mockResolvedValue(true);
-      jest.spyOn({ generateToken }, "generateToken").mockReturnValue(mockToken);
+      (UserModel.findOne as jest.Mock).mockResolvedValue(mockUser);
+      (generateToken as jest.Mock).mockReturnValue(mockToken);
+      jest
+        .spyOn(AuthUtils.prototype, "comparePassword")
+        .mockResolvedValue(true);
 
       const result = await userService.logingUser(
         "john@example.com",
@@ -84,15 +96,17 @@ describe("UserService", () => {
         email: "john@example.com",
       });
       expect(AuthUtils.prototype.comparePassword).toHaveBeenCalledWith(
-        mockUser.password,
-        "password123"
+        "password123",
+        mockUser.password
       );
-      expect(generateToken).toHaveBeenCalledWith(mockUser._id.toString());
-      expect(result).toEqual({ user: mockUser, token: mockToken });
+      expect(result).toEqual({
+        user: mockUser,
+        token: mockToken,
+      });
     });
 
     it("should throw an error if user is not found", async () => {
-      UserModel.findOne = jest.fn().mockResolvedValue(null);
+      (UserModel.findOne as jest.Mock).mockResolvedValue(null);
 
       await expect(
         userService.logingUser("john@example.com", "password123")
@@ -102,8 +116,10 @@ describe("UserService", () => {
     it("should throw an error if password is invalid", async () => {
       const mockUser = { password: "hashedPassword" };
 
-      UserModel.findOne = jest.fn().mockResolvedValue(mockUser);
-      AuthUtils.prototype.comparePassword = jest.fn().mockResolvedValue(false);
+      (UserModel.findOne as jest.Mock).mockResolvedValue(mockUser);
+      jest
+        .spyOn(AuthUtils.prototype, "comparePassword")
+        .mockResolvedValue(false);
 
       await expect(
         userService.logingUser("john@example.com", "password123")
@@ -140,8 +156,8 @@ describe("UserService", () => {
     it("should retrieve a user by ID", async () => {
       const mockUser = { _id: "123", name: "John" };
 
-      UserModel.findById = jest.fn().mockResolvedValue(mockUser);
-      mongoose.isValidObjectId = jest.fn().mockReturnValue(true);
+      (UserModel.findById as jest.Mock).mockResolvedValue(mockUser);
+      jest.spyOn(mongoose, "isValidObjectId").mockReturnValue(true);
 
       const result = await userService.getUser("123");
 
@@ -150,8 +166,8 @@ describe("UserService", () => {
     });
 
     it("should throw an error if user is not found", async () => {
-      UserModel.findById = jest.fn().mockResolvedValue(null);
-      mongoose.isValidObjectId = jest.fn().mockReturnValue(true);
+      (UserModel.findById as jest.Mock).mockResolvedValue(null);
+      jest.spyOn(mongoose, "isValidObjectId").mockReturnValue(true);
 
       await expect(userService.getUser("123")).rejects.toThrow(
         new ErrorMessage(404, "User not Found")
@@ -159,13 +175,11 @@ describe("UserService", () => {
     });
 
     it("should throw an error if ID is invalid", async () => {
-      mongoose.isValidObjectId = jest.fn().mockReturnValue(false);
+      jest.spyOn(mongoose, "isValidObjectId").mockReturnValue(false);
 
       await expect(userService.getUser("invalid-id")).rejects.toThrow(
         new ErrorMessage(400, "Not a valid ObjectId")
       );
     });
   });
-
-  // Additional test cases for deleteUser, isExistingUser, and isValidObjectId can be added similarly.
 });

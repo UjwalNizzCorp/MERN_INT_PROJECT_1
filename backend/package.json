@@ -5,7 +5,6 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "jest": "^29.7.0",
     "jest-mock": "^29.7.0",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
@@ -20,6 +19,7 @@
     "check": "tsc --noEmit",
     "server": "ts-node-dev --respawn src/server.ts",
     "test": "tsx watch --test",
+    "testing": "jest",
     "developer": "ts-node-dev --respawn ./src/server.ts types.d.ts",
     "dev": "tsx --no-cache src/server.ts",
     "start": "node --loader ts-node/esm src/server.ts"
@@ -34,6 +34,7 @@
   "devDependencies": {
     "@babel/core": "^7.26.10",
     "@babel/preset-env": "^7.26.9",
+    "@babel/preset-typescript": "^7.27.0",
     "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/mongodb-memory-server": "^1.8.0",
@@ -41,6 +42,7 @@
     "@types/node": "^22.14.0",
     "@types/supertest": "^6.0.3",
     "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
     "mongodb-memory-server": "^10.1.4",
     "mongoose": "^8.13.1",
     "supertest": "^7.1.0",

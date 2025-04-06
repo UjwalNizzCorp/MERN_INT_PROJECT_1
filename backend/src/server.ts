@@ -4,7 +4,7 @@ import "dotenv/config";
 import appRouter from "./routes/userRoute.js";
 import portfolioRouter from "./routes/portfolioRoutes.js";
 import { errorHandler } from "./middlewares/ErrorHandler.js";
-import { PORT } from "./constants/env.js";
+import { MONGO_URI, PORT } from "./constants/env.js";
 import { connectDB } from "./config/connectDb.js";
 
 // dotenv.config();
@@ -20,6 +20,6 @@ app.use("/api", portfolioRouter);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  connectDB();
+  connectDB(MONGO_URI);
   console.log(`Server is Running on http://localhost:${PORT}`);
 });

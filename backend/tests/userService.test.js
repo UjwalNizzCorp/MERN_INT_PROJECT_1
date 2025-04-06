@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import UserService from "../service/userServices.js";
 import UserModel from "../Models/UserModel.js";
 import { generateToken, validateToken } from "../util/jwt.js";
 import ErrorMessage from "../util/errorMessage.js";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import AuthUtils from "../util/authUtils.js";
+import UserService from "../service/userServices.js";
 
 jest.mock("../util/jwt.js");
 jest.mock("../util/authUtils.js");

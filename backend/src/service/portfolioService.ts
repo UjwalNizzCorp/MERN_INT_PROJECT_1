@@ -101,6 +101,7 @@ class PortfolioServices {
    * @throws {ErrorMessage} - Throws an error if the portfolio is not found or the ID is invalid.
    */
   async addProject(id: string, project: string) {
+    this.isValidObjectId(id);
     const portfolio = await PortfolioModel.findById(id);
     if (!portfolio) {
       throw new ErrorMessage(404, "Portfolio not found");
@@ -117,6 +118,7 @@ class PortfolioServices {
    * @throws {ErrorMessage} - Throws an error if the portfolio is not found or the ID is invalid.
    */
   async removeProject(id: string, removePrjt: string) {
+    this.isValidObjectId(id);
     const portfolio = await PortfolioModel.findById(id);
     if (!portfolio) {
       throw new ErrorMessage(404, "Portfolio not found");

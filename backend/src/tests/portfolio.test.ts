@@ -3,6 +3,8 @@ import PortfolioServices from "../service/portfolioService.js";
 import PortfolioModel from "../model/PortfolioModle.js";
 import mongoose from "mongoose";
 
+console.log("Type of PortfolioServices: ", typeof PortfolioServices);
+
 let mongoServer: MongoMemoryServer;
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();

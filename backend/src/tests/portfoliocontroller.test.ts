@@ -4,7 +4,7 @@ import { getPortfolioController } from "../controller/portfolioControl.js";
 import PortfolioServices from "../service/portfolioService.js";
 
 // Mock PortfolioServices
-jest.mock("../service/portfolioService");
+jest.mock("../service/portfolioService.js");
 
 const app = express();
 app.use(express.json());
