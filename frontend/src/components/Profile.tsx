@@ -88,7 +88,7 @@ const Profile = () => {
           >
             {userData.name}
           </h2>
-          <p data-testid="profilEmail">Email: <span className="font-semibold">{userData.email}</span></p>
+          <p data-testid="profileEmail">Email: <span className="font-semibold">{userData.email}</span></p>
           <p data-testid="profileSkills">Skills: <span className="font-semibold">{userData.skills}</span></p>
           <p data-testid="profileProjects">Projects: <span className="font-semibold">{userData.projects}</span></p>
           <p data-testid="profileExperience">

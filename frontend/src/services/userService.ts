@@ -5,7 +5,6 @@
  * @date 2025/04/04
  */
 
-// import axios, { AxiosInstance } from "axios";
 import { jwtDecode } from "jwt-decode";
 import Axios from "../utils/axios";
 
@@ -66,6 +65,12 @@ class UserService {
     console.log("decoded userId : ", userId);
     try {
       const data = Axios.get(`/user/${userId}`);
+      // const data ={
+      //   name:"John Doe",
+      //   skills:"React, Node.js, MongoDB",
+      //   projects:"Portfolio, Social Media App",
+      //   experience:"3 years",
+      // }
       console.log(data);
       return data;
     } catch (error) {
@@ -79,8 +84,16 @@ class UserService {
    * @returns A promise resolving to the server response.
    */
  static async logout(): Promise<any> {
+  const token = localStorage.getItem("token") || "{}";
+  type jwtType = { userId: string; iat: number; exp: number };
+  const decoded: jwtType = jwtDecode(token);
+  const userId = decoded.userId;
     try {
-      const response = Axios.post("/logout", {});
+      const response = Axios.delete("/logout",userId);
+      // const response = {
+      //   message:"Logout successful",
+      //   ok:true,
+      // }
       return response;
     } catch (error) {
       return;
@@ -94,7 +107,12 @@ class UserService {
    */
  static async updateUser(data: UpdateDetails) {
     try {
+      console.log("Update data service",data);
       const response = Axios.put(`/user`, data);
+      // const response = {
+      //   message:"Update successful",
+      //   ok:true,
+      // }
       return response;
     } catch (error) {
       return;

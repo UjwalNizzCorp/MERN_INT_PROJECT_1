@@ -44,6 +44,7 @@ const EditProfile = () => {
     register,
     handleSubmit,
     setValue,
+   
     formState: { errors },
   } = useForm<UserDetails>();
 
@@ -60,8 +61,10 @@ const EditProfile = () => {
 
     const fetchUser = async () => {
       try {
+        
         const response = await userService.getUser();
-        const user = response.data;
+        const user = response;
+        console.log(user);
         setValue("name", user.name);
         setValue("skills", user.skills);
         setValue("experience", user.experience);
@@ -96,7 +99,9 @@ const EditProfile = () => {
       <h3 className="text-center text-xl md:text-3xl font-semibold text-blue-600">Edit Profile</h3>
         <div className="flex flex-col gap-1 mb-2">
           <label htmlFor="name">Name</label>
-          <input className="border-2 border-blue-900 p-1"
+          <input 
+          
+           className="border-2 border-blue-900 p-1"
             id="name"
             {...register("name", { required: "Name is required" })}
           />
