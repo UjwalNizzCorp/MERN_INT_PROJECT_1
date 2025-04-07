@@ -6,10 +6,12 @@ import Login from './components/Login.tsx'
 import Profile from './components/Profile.tsx'
 import Welcome from './components/Welcome.tsx'
 import EditProfile from './components/EditProfile.tsx'
+import ErrorFile from './components/ErrorFile.tsx'
 
 createRoot(document.getElementById('root')!).render(
 <BrowserRouter>
     <Routes>
+    <Route path="*" element={<ErrorFile />} />
       <Route path="/" element={<App />}>
       <Route path="/" element={<Welcome />} />
         <Route path="/login" element={<Login />} />
