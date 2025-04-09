@@ -20,6 +20,8 @@
     "check": "tsc --noEmit",
     "server": "ts-node-dev --respawn src/server.ts",
     "test": "tsx watch --test",
+    "testing":"jest",
+    "vi": "vitest",
     "developer": "ts-node-dev --respawn ./src/server.ts types.d.ts",
     "dev": "tsx --no-cache src/server.ts",
     "start": "node --loader ts-node/esm src/server.ts"
@@ -45,6 +47,7 @@
     "mongoose": "^8.13.1",
     "supertest": "^7.1.0",
     "ts-node-dev": "^2.0.0",
-    "tsx": "^4.19.3"
+    "tsx": "^4.19.3",
+    "vitest": "^3.1.1"
   }
 }

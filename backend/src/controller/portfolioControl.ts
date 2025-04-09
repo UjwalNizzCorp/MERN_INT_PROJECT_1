@@ -105,7 +105,7 @@ export const deleteProject = async (
   const { removeProject } = new PortfolioServices();
   try {
     // const deltedProject = await removeProject(req.params.id, req.port_project);
-    const deltedProject = await removeProject(req.params.id, req.body);
+    const deltedProject = await removeProject(req.params.id, req.body.projectName);
     res.status(204).send(deltedProject);
   } catch (error) {
     next(error);
