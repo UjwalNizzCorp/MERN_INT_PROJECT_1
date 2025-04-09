@@ -12,6 +12,6 @@ const appRouter = express.Router();
 
 appRouter.post("/register", registserValidateMiddleware, registerController);
 appRouter.post("/login", loginVlaidateMiddleware, loginController);
-appRouter.get("/:id", getSingleUser);
+// appRouter.get("/:id", getSingleUser);
 
 export default appRouter;
