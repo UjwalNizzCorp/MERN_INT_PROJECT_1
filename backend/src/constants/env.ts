@@ -8,12 +8,8 @@
 export const getEnv = (name: string): string => {
   try {
     const env = process.env[name];
-    if (typeof env === "undefined") {
-      //   if (process.env.NODE_ENV !== "test") {
+    if (typeof env === "undefined" || env === "") {
       throw new Error(`Erron in Getting ${name} env`);
-      //   } else {
-      //     return null;
-      //   }
     }
     return env;
   } catch (error: any) {

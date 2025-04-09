@@ -1,7 +1,7 @@
 import request from "supertest";
 import express from "express";
 import { registerController } from "../Controllers/authController.js";
-import UserService from "../service/userServices.js";
+import UserServicesrrr from "../service/userServices.js";
 import ErrorMessage from "../util/errorMessage.js";
 import { errorHandler } from "../Middleware/errorHandler.js";
 

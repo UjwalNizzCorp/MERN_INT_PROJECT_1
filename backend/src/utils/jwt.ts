@@ -6,6 +6,7 @@ import { JWT_SECRET } from "../constants/env.js";
  * @param {string} userId - The ID of the user
  * @return {string} - The generated JWT token
  */
+
 export const generateToken = (userId: string) => {
   const token = jwt.sign({ userId }, JWT_SECRET, {
     expiresIn: "15d",

@@ -18,7 +18,7 @@ import { Request } from "express";
  * @method isValidObjectId - Checks if the provided ID is a valid ObjectId.
  * @throws {ErrorMessage} - Throws an error if the user is not found, the email is already in use, or the ID is not valid.
  */
-class UserService {
+export class UserServices {
   /**
    * @brief Registers a new user with the provided name, email, and password.
    * @param {string} name - The name of the user.
@@ -27,6 +27,7 @@ class UserService {
    * @returns {Promise<{ newUser: object, token: string }>} - The newly registered user and their token.
    * @throws {ErrorMessage} - Throws an error if the email is already in use.
    */
+
   async registerUser(name: string, email: string, password: string) {
     // name, skills, projects, experience
     const isExist = await UserModel.findOne({ email });
@@ -140,5 +141,3 @@ class UserService {
     }
   }
 }
-
-export default UserService;

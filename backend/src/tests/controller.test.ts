@@ -1,20 +1,14 @@
+import "dotenv/config.js";
 import request from "supertest";
 import express, { Request, Response, NextFunction } from "express";
 import { registerController } from "../controller/authControl.js";
-import UserService from "../service/userService.js";
 import ErrorMessage from "../utils/errorMessage.js";
 import { errorHandler } from "../middlewares/ErrorHandler.js";
 import mongoose from "mongoose";
 import { UserDocument } from "../model/UserModel.js";
-
-// Mock UserService
-jest.mock("../service/userService.js", () => {
-  return {
-    UserService: jest.fn().mockImplementation(() => ({
-      registerUser: jest.fn(),
-    })),
-  };
-});
+import { UserServices } from "../service/userService.js";
+// // Mock UserService
+jest.mock("../service/userService.js");
 
 // Custom type for request with taskbody
 interface CustomRequest extends Request {
@@ -34,39 +28,21 @@ app.post("/register", registerController);
 app.use(errorHandler);
 
 describe("registerController", () => {
-  let userServiceInstance: jest.Mocked<UserService>;
-
   beforeEach(() => {
-    // Clear all mocks
     jest.clearAllMocks();
-
-    // Get the mocked constructor
-    // Mock the registerUser method on the UserService prototype
-    userServiceInstance = {
-      registerUser: jest.fn(),
-    } as unknown as jest.Mocked<UserService>;
-  });
-
-  it("should return 500 if an error occurs", async () => {
-    const error = new ErrorMessage(500, "Something Went wrong");
-    userServiceInstance.registerUser.mockRejectedValueOnce(error);
-
-    const response = await request(app).post("/register").send({
-      name: "test",
-      email: "test@example.com",
-      password: "securePassword",
-    });
-
-    expect(response.status).toBe(500);
-    expect(response.body).toEqual({ message: "Something Went wrong" });
-    expect(userServiceInstance.registerUser).toHaveBeenCalledWith(
-      "test",
-      "test@example.com",
-      "securePassword"
-    );
   });
 
   it("should register a user successfully", async () => {
+    // const mockUser = {
+    //   newUser: {
+    //     _id: new mongoose.Types.ObjectId(),
+    //     name: "test",
+    //     email: "test@example.com",
+    //     password: "hashedPassword",
+    //     __v: 0,
+    //   },
+    //   token: "mockToken"
+    // };
     const mockUser = {
       newUser: {
         _id: new mongoose.Types.ObjectId(),
@@ -79,7 +55,10 @@ describe("registerController", () => {
       token: "mockToken",
     };
 
-    userServiceInstance.registerUser.mockResolvedValueOnce(mockUser);
+    // Mock the entire UserServices class
+    jest
+      .spyOn(UserServices.prototype, "registerUser")
+      .mockResolvedValueOnce(mockUser);
 
     const response = await request(app).post("/register").send({
       name: "test",
@@ -87,12 +66,42 @@ describe("registerController", () => {
       password: "securePassword",
     });
 
+    // Verify HTTP status
     expect(response.status).toBe(201);
-    expect(response.body).toEqual(mockUser);
-    expect(userServiceInstance.registerUser).toHaveBeenCalledWith(
+
+    // Verify response structure and content
+    expect(response.body).toEqual({
+      newUser: expect.objectContaining({
+        name: "test",
+        email: "test@example.com",
+      }),
+      token: "mockToken",
+    });
+
+    // Verify the service was called with correct parameters
+    expect(UserServices.prototype.registerUser).toHaveBeenCalledWith(
       "test",
       "test@example.com",
       "securePassword"
     );
+    expect(UserServices.prototype.registerUser).toHaveBeenCalledTimes(1);
+  });
+
+  // Add error case test
+  it("should handle registration errors", async () => {
+    jest
+      .spyOn(UserServices.prototype, "registerUser")
+      .mockRejectedValueOnce(new ErrorMessage(400, "Email is already in use."));
+
+    const response = await request(app).post("/register").send({
+      name: "test",
+      email: "existing@example.com",
+      password: "securePassword",
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      message: "Email is already in use.",
+    });
   });
 });

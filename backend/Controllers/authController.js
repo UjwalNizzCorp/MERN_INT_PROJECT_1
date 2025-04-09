@@ -1,4 +1,4 @@
-import UserService from "../service/userServices.js";
+import UserServices from "../service/userServices.js";
 import ErrorMessage from "../util/errorMessage.js";
 
 /**
@@ -8,7 +8,7 @@ import ErrorMessage from "../util/errorMessage.js";
  * @param {*} next
  */
 export const registerController = async (req, res, next) => {
-  const { registerUser } = new UserService();
+  const { registerUser } = new UserServices();
   try {
     const { name, email, password } = req.taskbody;
     const user = await registerUser(name, email, password);

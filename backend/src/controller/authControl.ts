@@ -1,6 +1,9 @@
-import UserService from "../service/userService.js";
 import { Request, Response, NextFunction } from "express";
+import { UserServices } from "../service/userService.js";
 
+console.log("Type of UserServices: ", typeof UserServices);
+
+const userService = new UserServices();
 /**
  * documentation needed
  * @param {*} req
@@ -12,11 +15,11 @@ export const registerController = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { registerUser } = new UserService();
+  // const userService = new UserService();
   try {
     // const { name, email, password } = req.reg_user;
     const { name, email, password } = req.body;
-    const user = await registerUser(name, email, password);
+    const user = await userService.registerUser(name, email, password);
     res.status(201).json(user);
   } catch (error) {
     next(error);
@@ -28,11 +31,11 @@ export const loginController = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { logingUser } = new UserService();
+  // const userService = new UserService();
   try {
     // const { password, email } = req.log_user;
     const { password, email } = req.body;
-    const user = await logingUser(email, password);
+    const user = await userService.logingUser(email, password);
     res.status(200).json(user);
   } catch (error) {
     next(error);
@@ -44,10 +47,10 @@ export const getSingleUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { getUser } = new UserService();
+  // const userService = new UserService();
   try {
     const userId = req.params.id;
-    const user = await getUser(userId);
+    const user = await userService.getUser(userId);
     res.status(200).json(user);
   } catch (error) {
     // console.log("The Eroor is : ", error.statusCode, error.message, error);
